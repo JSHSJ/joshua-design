@@ -36,16 +36,6 @@
   --sectionPadding: var(--s2);
   --contentPadding: var(--defaultPadding-vertical) var(--defaultPadding-horizontal);
   --containerMaxWidth: calc(1rem * pow(var(--ratio), 11));
-  /* --containerMaxWidth: var(--measure); */
-
-
-/* @media (min-width: 32rem) {
-  .defaults {
-    --sectionPadding: calc(var(--spacing) * 15);
-    --defaultPadding-horizontal: calc(var(--spacing) * 4);
-  }
-} */
-
 
 
   --brand-hue: 352;
@@ -65,9 +55,9 @@
   @media (prefers-color-scheme: light) { & {
     --brand: hsla(var(--brand-hue), 100%, 48%, var(--brand-opacity));
     --surface1: hsla(var(--brand-hue), 20%, 96%, var(--surface-opacity));
-    --surface2: hsla(var(--brand-hue), 12%, 99%, var(--surface-opacity));
+    --surface2: hsla(var(--brand-hue), 8%, 99%, var(--surface-opacity));
     --text1: hsla(var(--brand-hue), 8%, 8%, var(--text-opacity));
-    --text2: hsla(var(--brand-hue), 24%,16%, var(--text-opacity));
+    --text2: hsla(var(--brand-hue), 20%, 20%, var(--text-opacity));
 
     @media (dynamic-range: high) { & {
       --brand: color(display-p3 1 0 1);
@@ -404,4 +394,43 @@ figure {
     --gap: var(--s-2);
     margin-block-start: var(--s-2);
   }
+}
+
+.cart {
+  max-inline-size: max-content;
+  background-color: var(--surface2);
+  padding-inline: var(--defaultPadding-horizontal);
+  padding-block: var(--defaultPadding-vertical);
+  border-radius: 0;
+
+  border: var(--border-thin) solid var(--text2);
+
+}
+
+
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s1);
+}
+
+.with-sidebar {
+  --gap: var(--s2);
+  --minSize: 32rem;
+
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+
+  & [data-aside] {
+    flex-grow: 1;
+  }
+
+  & [data-grow] {
+    flex-basis: 0;
+    flex-grow: 999;
+    min-width: var(--minSize);
+  }
+
 }
