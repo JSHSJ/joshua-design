@@ -1,73 +1,130 @@
+@import "./fonts/fonts.css";
 @custom-media --motionOK (prefers-reduced-motion: no-preference);
 
 :root {
 
 
   /* Fontsize / Spacing Rhythm */
-  --ratio: 1.64;
-  --s-5: calc(var(--s-4) / var(--ratio));
-  --s-4: calc(var(--s-3) / var(--ratio));
-  --s-3: calc(var(--s-2) / var(--ratio));
-  --s-2: calc(var(--s-1) / var(--ratio));
-  --s-1: calc(var(--s0) / var(--ratio));
+  --ratio: 1.48;
+  --s-5: calc(1rem / pow(var(--ratio), 5));
+  --s-4: calc(1rem / pow(var(--ratio), 4));
+  --s-3: calc(1rem / pow(var(--ratio), 3));
+  --s-2: calc(1rem / pow(var(--ratio), 2));
+  --s-1: calc(1rem / var(--ratio));
   --s0: 1rem;
-  --s1: calc(var(--s0) * var(--ratio));
-  --s2: calc(var(--s1) * var(--ratio));
-  --s3: calc(var(--s2) * var(--ratio));
-  --s4: calc(var(--s3) * var(--ratio));
-  --s5: calc(var(--s4) * var(--ratio));
+  --s1: calc(1rem * pow(var(--ratio), 1));
+  --s2: calc(1rem * pow(var(--ratio), 2));
+  --s3:  calc(1rem * pow(var(--ratio), 3));
+  --s4:  calc(1rem * pow(var(--ratio), 4));
+  --s5:  calc(1rem * pow(var(--ratio), 5));
 
   --measure: 64ch;
 
+  --fontFamily: 'Iosevka Aile', system-ui, sans-serif;
+  --fontWeightRegular: 400;
+  --fontWeightBold: 600;
+  --lineHeight: var(--ratio);
+  --lineHeight-small: calc(0.8*var(--ratio));
 
-  --surface1: lch(10 0 0);
-  --surface2: lch(15 0 0);
+  --border-thin: var(--s-5);
+  --border-thick: var(--s-2);
 
-  --text1: lch(95 0 0);
-  --text2: lch(75 0 0);
 
-  --brand: lch(64 40 347);
+  --defaultSpacing: var(--s1);
+  --defaultPadding-horizontal: var(--s0);
+  --defaultPadding-vertical: var(--s0);
+  --sectionPadding: var(--s2);
+  --contentPadding: var(--defaultPadding-vertical) var(--defaultPadding-horizontal);
+  --containerMaxWidth: calc(1rem * pow(var(--ratio), 11));
+  /* --containerMaxWidth: var(--measure); */
+
+
+/* @media (min-width: 32rem) {
+  .defaults {
+    --sectionPadding: calc(var(--spacing) * 15);
+    --defaultPadding-horizontal: calc(var(--spacing) * 4);
+  }
+} */
+
+
+
+  --brand-hue: 352;
+  /* --brand-hue: 112; */
+  /* for future use when var is supported in lch */
+  --surface-opacity: 1.0;
+  --text-opacity: 1.0;
+  --brand-opacity: 1.0;
+
+  /* var(--brand-hue) in lch doesn't seem to work unfortunately */
+  --brand: hsla(var(--brand-hue), 100%, 64%, var(--brand-opacity));
+  --surface1: hsla(var(--brand-hue), 2%, 2%, var(--surface-opacity));
+  --surface2: hsla(var(--brand-hue), 24%, 8%, var(--surface-opacity));
+  --text1: hsla(var(--brand-hue), 10%, 98%, var(--text-opacity));
+  --text2: hsla(var(--brand-hue), 24%, 92%, var(--text-opacity));
 
   @media (prefers-color-scheme: light) { & {
-    --surface1: lch(90 0 0);
-    --surface2: lch(100 0 0);
-
-    --text1: lch(20 0 0);
-    --text2: lch(40 0 0);
-
-    --brand: lch(65 64 350);
+    --brand: hsla(var(--brand-hue), 100%, 48%, var(--brand-opacity));
+    --surface1: hsla(var(--brand-hue), 20%, 96%, var(--surface-opacity));
+    --surface2: hsla(var(--brand-hue), 12%, 99%, var(--surface-opacity));
+    --text1: hsla(var(--brand-hue), 8%, 8%, var(--text-opacity));
+    --text2: hsla(var(--brand-hue), 24%,16%, var(--text-opacity));
 
     @media (dynamic-range: high) { & {
       --brand: color(display-p3 1 0 1);
     }}
   }}
+
+}
+
+p,h1,h2,h3,h4,h5,h6,ul,ol,dl,figure,blockquote {
+  margin-block: 0;
+}
+
+:focus-visible, :focus {
+  outline: var(--s-5) solid var(--brand);
+  outline-offset: .64ch;
+}
+
+:focus:not(:focus-visible) { outline: none; }
+
+
+::marker {
+  color: var(--brand);
+}
+
+::selection, mark {
+  background: var(--brand);
+  color: var(--surface1);
 }
 
 * {
   box-sizing: border-box;
   background-origin: border-box;
   background-repeat: no-repeat;
-  margin: 0;
 }
 
 html {
   block-size: 100%;
+  inline-size: 100%;
+
 
   @media (--motionOK) { & {
     scroll-behavior: smooth;
   }}
+
+  font-family: var(--fontFamily);
+  font-size: calc(0.4vmin + 1em);
+  line-height: var(--line-height);
 }
 
 body {
   min-block-size: 100%;
-
-  display: grid;
-  place-content: center;
-  gap: var(--s2);
+  min-inline-size: 100%;
+  box-sizing: border-box;
+  margin: 0;
 
   background: var(--surface1);
-  color: var(--text1);
-  font-family: system-ui, sans-serif;
+  color: var(--text2);
 }
 
 @media (orientation: landscape) {
@@ -78,23 +135,62 @@ body {
 
 a {
   color: var(--brand);
-  color: color(display-p3 0 .5 1);
+  text-underline-offset: var(--s-5);
+  text-decoration-thickness: var(--s-5);
+  font-weight: var(--fontWeightBold);
+  /* color: color(display-p3 0 .5 1); */
 
   &:visited {
     color: color(display-p3 .5 0 1);
   }
+
+
+  &:hover {
+    opacity: 0.64;
+  }
 }
 
 h1,h2,h3,h4,h5,h6 {
-  line-height: 1.5;
-  max-inline-size: 25ch;
+  line-height: var(--lineHeight-small);
+  color: var(--text1);
 }
 
-p {
-  line-height: 2;
-  font-size: 1.25rem;
-  font-weight: 300;
-  max-inline-size: 45ch;
+* + :is(h1, h2, h3, h4, h5, h6) {
+  --gap: 1.5em;
+}
+
+h1 {
+  font-size: var(--s3);
+  font-weight: var(--fontWeightBold);
+  max-inline-size: calc(var(--measure) / calc(pow(var(--ratio), 3)));
+}
+
+h2 {
+  font-size: var(--s3);
+  font-weight: var(--fontWeightRegular);
+  max-inline-size: calc(var(--measure) / calc(pow(var(--ratio), 3)));
+}
+
+h3 {
+  font-size: var(--s2);
+  font-weight: var(--fontWeightBold);
+  max-inline-size: calc(var(--measure) / calc(pow(var(--ratio), 2)));
+}
+
+h4 {
+  font-size: var(--s2);
+  font-weight: var(--fontWeightRegular);
+  max-inline-size: calc(var(--measure) / calc(pow(var(--ratio), 2)));
+}
+h5 {
+  font-size: var(--s1);
+  font-weight: var(--fontWeightBold);
+  max-inline-size: calc(var(--measure) / calc(pow(var(--ratio), 1)));
+}
+h6 {
+  font-size: var(--s1);
+  font-weight: var(--fontWeightRegular);
+  max-inline-size: calc(var(--measure) / calc(pow(var(--ratio), 1)));
 }
 
 img, picture {
@@ -106,13 +202,206 @@ input, button, textarea, select {
   font: inherit;
 }
 
-/* end reset */
+.box {
+  padding-inline: var(--defaultPadding-horizontal);
+  padding-block: var(--defaultPadding-vertical);
+}
 
-main {
-  text-align: center;
-  background: var(--surface2);
+.stack {
+  --stack-gap: var(--s2);
   display: grid;
-  gap: var(--s1);
-  padding: var(--s2);
-  border-radius: 1ch;
+  gap: var(--s2);
+  place-content: center;
+}
+
+
+.flow {
+  --gap: var(--defaultSpacing);
+  & > * + * {
+    margin-block-start: var(--gap);
+  }
+}
+
+.measured {
+  max-inline-size: var(--measure);
+}
+
+.section {
+  margin-block: var(--sectionPadding);
+}
+
+.layoutContainer {
+  margin-inline: auto;
+  width: 100%;
+  max-width: var(--containerMaxWidth);
+  padding-inline: var(--defaultPadding-horizontal);
+
+  padding-block: var(--s2);
+  display: grid;
+  grid-template-columns: 1fr minmax(10rem, var(--measure)) 1fr;
+  justify-items: start;
+
+  & *:not(figure) {
+    grid-column-start: 2;
+    grid-column-end: 3;
+  }
+
+  & figure {
+    grid-column-start: 1;
+    grid-column-end: 4;
+  }
+}
+
+p,li,dd,dt,summary {
+  max-inline-size: var(--measure);
+  font-size: var(--s0);
+  font-weight: var(--fontWeightRegular);
+  line-height: var(--lineHeight);
+}
+
+
+
+ol,ul,dl {
+  display: grid;
+  gap: var(--s0);
+  max-inline-size: max-content;
+  padding-inline: 0;
+  /* padding-block: var(--s0); */
+  --gap: var(--s2);
+}
+
+li, dd {
+  max-inline-size: calc(var(--measure) * 0.8);
+  font-size: var(--s0);
+  margin-inline: var(--s0);
+}
+
+dt {
+  font-weight: bolder;
+
+  &:not(:first-of-type) {
+    margin-top: var(--s0);
+  }
+}
+
+img {
+  max-inline-size: 100%;
+  block-size: auto;
+}
+
+small {
+  font-size: var(--s-1);
+}
+
+sup, small, figcaption {
+  color: var(--text2);
+}
+
+details {
+  max-inline-size: max-content;
+  background-color: var(--surface2);
+  padding-inline: var(--defaultPadding-horizontal);
+  padding-block: var(--defaultPadding-vertical);
+  border-radius: 0;
+
+  & > *:not(summary):first-of-type {
+    margin-block-start: var(--s0);
+  }
+
+  & > summary {
+    cursor: pointer;
+  }
+
+
+
+  &[open=""] {
+    border: var(--border-thin) solid var(--text2);
+  }
+}
+
+button, .CTA-button {
+  padding: var(--s-1);
+  background: var(--text2);
+  color: var(--surface2);
+  border-width: var(--border-thin);
+  border-color: var(--text2);
+  border-style: solid;
+  padding-inline: var(--s2);
+  height: 3em;
+
+  font-family: var(--fontFamily);
+  font-weight: var(--fontWeightBold);
+  font-size: var(--s0);
+  cursor: pointer;
+  display: inline-flex;
+  box-sizing: border-box;
+  align-items: center;
+  justify-items: center;
+  width: max-content;
+  position: relative;
+
+
+  &:hover {
+
+    background: var(--text1);
+    color: var(--surface1);
+    border-color: var(--text1);
+    outline: 1px solid var(--text1);
+    outline-offset: 0px;
+  }
+
+  &.-secondary {
+    background: var(--surface2);
+    color: var(--text2);
+  }
+
+  &.-secondary:hover {
+    background: var(--surface1);
+    color: var(--text1);
+    border-color: var(--text1);
+    outline: 1px solid var(--text1);
+  }
+}
+
+.input-container {
+  display: grid;
+  gap: var(--s-2);
+}
+
+label {
+  font-weight: var(--fontWeightBold);
+}
+
+input {
+  border-width: var(--border-thin);
+  border-color: var(--text2);
+  border-style: solid;
+  padding-inline: var(--s0);
+  height: 3em;
+  font-family: var(--fontFamily);
+  font-size: var(--s0);
+  line-height: var(--lineHeight-small);
+  background: var(--surface2);
+  color: var(--text2);
+}
+
+input:focus-within {
+  outline: none;
+  border-color: var(--text1);
+  outline: 1px solid var(--text1);
+  outline-offset: 0px;
+}
+
+figure {
+  margin: var(--s1) 0;
+
+  & picture {
+    border: var(--border-thick) dashed var(--text1);
+    padding: var(--s0);
+  }
+
+  & picture + figcaption {
+    --gap: var(--s-2);
+    margin-block-start: var(--s-2);
+  }
 }

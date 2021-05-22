@@ -1,0 +1,12 @@
+@font-face {
+  font-family: 'Iosevka Aile';
+  font-weight: 400;
+  src: url(./iosevka-aile-regular.woff2) format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Iosevka Aile';
+  font-weight: 600;
+  src: url(./iosevka-aile-semibold.woff2) format('woff2');
+  font-display: swap;
+}

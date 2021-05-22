@@ -1,5 +1,6 @@
 const postcssPresetEnv = require('postcss-preset-env');
 const postcsseasings = require('postcss-easings');
+const postcssPow = require('postcss-pow');
 
 module.exports = {
   plugins: [
@@ -12,7 +13,10 @@ module.exports = {
         'gap-properties': false,
         'custom-properties': false,
         'place-properties': false,
+        'focus-visible-pseudo-class': false,
+        'focus-iwithin-pseudo-class': false,
       },
     }),
+    postcssPow(),
   ],
 };
